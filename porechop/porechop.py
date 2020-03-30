@@ -35,9 +35,11 @@ def main():
     reads, check_reads, read_type = load_reads(args.input, args.verbosity, args.print_dest,
                                                args.check_reads)
 
-    matching_sets = find_matching_adapter_sets(check_reads, args.verbosity, args.end_size,
-                                               args.scoring_scheme_vals, args.print_dest,
-                                               args.adapter_threshold, args.threads)
+    #matching_sets = find_matching_adapter_sets(check_reads, args.verbosity, args.end_size,
+    #                                           args.scoring_scheme_vals, args.print_dest,
+    #                                           args.adapter_threshold, args.threads)
+    matching_sets = bypass_matching_adapter_sets()
+
     matching_sets = fix_up_1d2_sets(matching_sets)
 
     if args.barcode_dir:
@@ -282,6 +284,8 @@ def get_albacore_barcode_from_path(albacore_path):
         return 'BC' + albacore_barcode_num
     return None
 
+def bypass_matching_adapter_sets():
+    return search_adapters[23:47]
 
 def find_matching_adapter_sets(check_reads, verbosity, end_size, scoring_scheme_vals, print_dest,
                                adapter_threshold, threads):
