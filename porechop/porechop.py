@@ -38,7 +38,7 @@ def main():
     #Disable automatic barcode finding when a list of barcodes is given
     if args.barcode_list is None:
         #Turn ADAPTERS dict into list for backwards compatibility
-        ADAPTERS = list(ADAPTERS.values())
+        global ADAPTERS = list(ADAPTERS.values())
         matching_sets = find_matching_adapter_sets(check_reads, args.verbosity, args.end_size,
                                                    args.scoring_scheme_vals, args.print_dest,
                                                    args.adapter_threshold, args.threads)
