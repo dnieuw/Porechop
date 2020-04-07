@@ -34,27 +34,48 @@ def main():
     args = get_arguments()
     reads, check_reads, read_type = load_reads(args.input, args.verbosity, args.print_dest,
                                                args.check_reads)
+    
+    #Disable automatic barcode finding when a list of barcodes is given
+    if args.barcode_list is None:
+        #Turn ADAPTERS dict into list for backwards compatibility
+        ADAPTERS = list(ADAPTERS.values())
+        matching_sets = find_matching_adapter_sets(check_reads, args.verbosity, args.end_size,
+                                                   args.scoring_scheme_vals, args.print_dest,
+                                                   args.adapter_threshold, args.threads)
+        
+        matching_sets = fix_up_1d2_sets(matching_sets)
+        
+        if args.barcode_dir:
+            forward_or_reverse_barcodes = choose_barcoding_kit(matching_sets, args.verbosity,
+                                                               args.print_dest)
+        else:
+            forward_or_reverse_barcodes = None
+        
+        display_adapter_set_results(matching_sets, args.verbosity, args.print_dest)
+        matching_sets = add_full_barcode_adapter_sets(matching_sets)
+    else
+        #Check if the provided barcode names exist
+        for bc in args.barcode_list:
+            if not bc in ADAPTERS:
+                sys.exit('Error: Porechop could not find adapter ['+bc+'] in the ADAPTERS dictionary. If you did not make a type, please add the new adapter to the adapters.py file')
 
-    #matching_sets = find_matching_adapter_sets(check_reads, args.verbosity, args.end_size,
-    #                                           args.scoring_scheme_vals, args.print_dest,
-    #                                           args.adapter_threshold, args.threads)
-    #
-    #matching_sets = fix_up_1d2_sets(matching_sets)
-    #
-    #if args.barcode_dir:
-    #    forward_or_reverse_barcodes = choose_barcoding_kit(matching_sets, args.verbosity,
-    #                                                       args.print_dest)
-    #else:
-    #    forward_or_reverse_barcodes = None
+        #Select adapters from the ADAPTERS dict
+        matching_sets = [ADAPTER[x] for x in args.barcode_list]
 
-    #display_adapter_set_results(matching_sets, args.verbosity, args.print_dest)
-    #matching_sets = add_full_barcode_adapter_sets(matching_sets)
+        #Just check the adapter orientation based on name, not completely sure if this works for all adapters
+        if args.barcode_dir:
+            if '(reverse)' in adaptmatching_setser_set.name.lower():
+                forward_or_reverse_barcodes = "reverse"
+            else
+                forward_or_reverse_barcodes = "forward"
 
-    #if args.verbosity > 0:
-    #    print('\n', file=args.print_dest)
-
-    matching_sets = bypass_matching_adapter_sets()
-    forward_or_reverse_barcodes = "reverse"
+            if verbosity > 0:
+                print('\nBarcodes determined to be in ' + orientation + ' orientation', file=print_dest)
+        else:
+            forward_or_reverse_barcodes = None
+    
+    if args.verbosity > 0:
+            print('\n', file=args.print_dest)
 
     if matching_sets:
         check_barcodes = (args.barcode_dir is not None)
@@ -118,6 +139,9 @@ def get_arguments():
                                help='Reads will be binned based on their barcode and saved to '
                                     'separate files in this directory (incompatible with '
                                     '--output)')
+    barcode_group.add_argument('-l','--barcode_list', nargs='+',
+                               help='Space separated list of barcode names to include. See ' 
+                               'adapters.py file for the possible barcodes')
     barcode_group.add_argument('--barcode_threshold', type=float, default=75.0,
                                help='A read must have at least this percent identity to a barcode '
                                     'to be binned')
@@ -284,10 +308,6 @@ def get_albacore_barcode_from_path(albacore_path):
         albacore_barcode_num = matches[-1]
         return 'BC' + albacore_barcode_num
     return None
-
-def bypass_matching_adapter_sets():
-    #Select native barcodes 1:24 in reverse orientation
-    return ADAPTERS[11:35]
 
 def find_matching_adapter_sets(check_reads, verbosity, end_size, scoring_scheme_vals, print_dest,
                                adapter_threshold, threads):
