@@ -209,9 +209,9 @@ ADAPTERS = {'SQK-NSK007' : Adapter('SQK-NSK007',
             
             'BC01_fwd_fwd' : Adapter('Barcode 1 (forward)',
                     start_sequence=('BC01', 'AAGAAAGTTGTCGGTGTCTTTGTG'),
-                    end_sequence=('BC01_rev', 'CACAAAGACACCGACAACTTTCTT')),
-            'BC01_rev_rev' : Adapter('Barcode 1 (forward)',
-                    start_sequence=('BC01', 'AAGAAAGTTGTCGGTGTCTTTGTG'),
+                    end_sequence=('BC01', 'AAGAAAGTTGTCGGTGTCTTTGTG')),
+            'BC01_rev_rev' : Adapter('Barcode 1 (reverse)',
+                    start_sequence=('BC01_rev', 'CACAAAGACACCGACAACTTTCTT'),
                     end_sequence=('BC01_rev', 'CACAAAGACACCGACAACTTTCTT')),
 
             # Other barcoding kits (like the PCR and rapid barcodes) use the forward barcode at the
