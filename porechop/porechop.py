@@ -71,7 +71,7 @@ def main():
                 forward_or_reverse_barcodes = "forward"
 
             if args.verbosity > 0:
-                print('\nBarcodes determined to be in ' + orientation + ' orientation', file=args.print_dest)
+                print('\nBarcodes determined to be in ' + forward_or_reverse_barcodes + ' orientation', file=args.print_dest)
         else:
             forward_or_reverse_barcodes = None
     
