@@ -55,7 +55,7 @@ def main():
         #Check if the provided barcode names exist
         for bc in args.barcode_list:
             if not bc in ADAPTERS:
-                sys.exit('Error: Porechop could not find adapter ['+bc+'] in the ADAPTERS dictionary. If you did not make a type, please add the new adapter to the adapters.py file')
+                sys.exit('Error: Porechop could not find adapter ['+bc+'] in the ADAPTERS dictionary. If you did not make a typo, please add the new adapter to the adapters.py file')
 
         #Select adapters from the ADAPTERS dict
         matching_sets = [ADAPTERS[x] for x in args.barcode_list]
