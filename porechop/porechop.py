@@ -63,9 +63,9 @@ def main():
         #Select adapters from the ADAPTERS dict
         matching_sets = [ADAPTERS[x] for x in args.barcode_list]
 
-        #Just check the adapter orientation based on name, not completely sure if this works for all adapters
+        #Just check the first adapter orientation based on name
         if args.barcode_dir:
-            if '(reverse)' in adaptmatching_setser_set.name.lower():
+            if '(reverse)' in matching_sets[0].name.lower():
                 forward_or_reverse_barcodes = "reverse"
             else:
                 forward_or_reverse_barcodes = "forward"
