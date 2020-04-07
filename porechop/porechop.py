@@ -61,7 +61,7 @@ def main():
                 sys.exit('Error: Porechop could not find adapter ['+bc+'] in the ADAPTERS dictionary. If you did not make a type, please add the new adapter to the adapters.py file')
 
         #Select adapters from the ADAPTERS dict
-        matching_sets = [ADAPTER[x] for x in args.barcode_list]
+        matching_sets = [ADAPTERS[x] for x in args.barcode_list]
 
         #Just check the adapter orientation based on name, not completely sure if this works for all adapters
         if args.barcode_dir:
