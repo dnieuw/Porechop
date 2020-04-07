@@ -53,7 +53,7 @@ def main():
         
         display_adapter_set_results(matching_sets, args.verbosity, args.print_dest)
         matching_sets = add_full_barcode_adapter_sets(matching_sets)
-    else
+    else:
         #Check if the provided barcode names exist
         for bc in args.barcode_list:
             if not bc in ADAPTERS:
@@ -66,7 +66,7 @@ def main():
         if args.barcode_dir:
             if '(reverse)' in adaptmatching_setser_set.name.lower():
                 forward_or_reverse_barcodes = "reverse"
-            else
+            else:
                 forward_or_reverse_barcodes = "forward"
 
             if verbosity > 0:
