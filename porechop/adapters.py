@@ -207,10 +207,16 @@ ADAPTERS = {'SQK-NSK007' : Adapter('SQK-NSK007',
                     start_sequence=('BC24_rev', 'GCATAGTTCTGCATGATGGGTTAG'),
                     end_sequence=('BC24', 'CTAACCCATCATGCAGAACTATGC')),
             
+            'BC01_fwd_fwd' : Adapter('Barcode 1 (forward)',
+                    start_sequence=('BC01', 'AAGAAAGTTGTCGGTGTCTTTGTG'),
+                    end_sequence=('BC01_rev', 'CACAAAGACACCGACAACTTTCTT')),
+            'BC01_rev_rev' : Adapter('Barcode 1 (forward)',
+                    start_sequence=('BC01', 'AAGAAAGTTGTCGGTGTCTTTGTG'),
+                    end_sequence=('BC01_rev', 'CACAAAGACACCGACAACTTTCTT')),
 
             # Other barcoding kits (like the PCR and rapid barcodes) use the forward barcode at the
             # start of the read and the rev comp barcode at the end of the read.
-                        'BC01_fwd' : Adapter('Barcode 1 (forward)',
+            'BC01_fwd' : Adapter('Barcode 1 (forward)',
                     start_sequence=('BC01', 'AAGAAAGTTGTCGGTGTCTTTGTG'),
                     end_sequence=('BC01_rev', 'CACAAAGACACCGACAACTTTCTT')),
             'BC02_fwd' : Adapter('Barcode 2 (forward)',
@@ -501,7 +507,7 @@ ADAPTERS = {'SQK-NSK007' : Adapter('SQK-NSK007',
 
         
 def make_full_native_barcode_adapter(barcode_num):
-    barcode = [x for x in ADAPTERS if x.name == 'Barcode ' + str(barcode_num) + ' (reverse)'][0]
+    barcode = [x for x in ADAPTERS.values() if x.name == 'Barcode ' + str(barcode_num) + ' (reverse)'][0]
     start_barcode_seq = barcode.start_sequence[1]
     end_barcode_seq = barcode.end_sequence[1]
 
@@ -514,7 +520,7 @@ def make_full_native_barcode_adapter(barcode_num):
 
 
 def make_old_full_rapid_barcode_adapter(barcode_num):  # applies to SQK-RBK001
-    barcode = [x for x in ADAPTERS if x.name == 'Barcode ' + str(barcode_num) + ' (forward)'][0]
+    barcode = [x for x in ADAPTERS.values() if x.name == 'Barcode ' + str(barcode_num) + ' (forward)'][0]
     start_barcode_seq = barcode.start_sequence[1]
 
     start_full_seq = 'AATGTACTTCGTTCAGTTACG' + 'TATTGCT' + start_barcode_seq + \
@@ -525,7 +531,7 @@ def make_old_full_rapid_barcode_adapter(barcode_num):  # applies to SQK-RBK001
 
 
 def make_new_full_rapid_barcode_adapter(barcode_num):  # applies to SQK-RBK004
-    barcode = [x for x in ADAPTERS if x.name == 'Barcode ' + str(barcode_num) + ' (forward)'][0]
+    barcode = [x for x in ADAPTERS.values() if x.name == 'Barcode ' + str(barcode_num) + ' (forward)'][0]
     start_barcode_seq = barcode.start_sequence[1]
 
     start_full_seq = 'AATGTACTTCGTTCAGTTACG' + 'GCTTGGGTGTTTAACC' + start_barcode_seq + \

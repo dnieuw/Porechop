@@ -37,9 +37,6 @@ def main():
     
     #Disable automatic barcode finding when a list of barcodes is given
     if args.barcode_list is None:
-        #Turn ADAPTERS dict into list for backwards compatibility
-        global ADAPTERS 
-        ADAPTERS = list(ADAPTERS.values())
         matching_sets = find_matching_adapter_sets(check_reads, args.verbosity, args.end_size,
                                                    args.scoring_scheme_vals, args.print_dest,
                                                    args.adapter_threshold, args.threads)
@@ -320,7 +317,7 @@ def find_matching_adapter_sets(check_reads, verbosity, end_size, scoring_scheme_
         print(bold_underline('Looking for known adapter sets'), flush=True, file=print_dest)
         output_progress_line(0, read_count, print_dest)
 
-    search_adapters = [a for a in ADAPTERS if '(full sequence)' not in a.name]
+    search_adapters = [a for a in ADAPTERS.values() if '(full sequence)' not in a.name]
     search_adapter_count = len(search_adapters)
 
     # If single-threaded, do the work in a simple loop.
@@ -423,7 +420,7 @@ def display_adapter_set_results(matching_sets, verbosity, print_dest):
     table = [['Set', 'Best read start %ID', 'Best read end %ID']]
     row_colours = {}
     matching_set_names = [x.name for x in matching_sets]
-    search_adapters = [a for a in ADAPTERS if '(full sequence)' not in a.name]
+    search_adapters = [a for a in ADAPTERS.values() if '(full sequence)' not in a.name]
     for adapter_set in search_adapters:
         start_score = '%.1f' % adapter_set.best_start_score
         end_score = '%.1f' % adapter_set.best_end_score
