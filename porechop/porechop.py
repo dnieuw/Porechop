@@ -54,7 +54,7 @@ def main():
     #    print('\n', file=args.print_dest)
 
     matching_sets = bypass_matching_adapter_sets()
-    forward_or_reverse_barcodes = "forward"
+    forward_or_reverse_barcodes = "reverse"
 
     if matching_sets:
         check_barcodes = (args.barcode_dir is not None)
@@ -286,7 +286,8 @@ def get_albacore_barcode_from_path(albacore_path):
     return None
 
 def bypass_matching_adapter_sets():
-    return ADAPTERS[23:47]
+    #Select native barcodes 1:24 in reverse orientation
+    return ADAPTERS[11:35]
 
 def find_matching_adapter_sets(check_reads, verbosity, end_size, scoring_scheme_vals, print_dest,
                                adapter_threshold, threads):
